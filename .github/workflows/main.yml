@@ -22,16 +22,16 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Generate Gradle Wrapper
-        run: gradle wrapper --gradle-version 8.0
+        run: cd VpnApp && gradle wrapper --gradle-version 8.0
 
       - name: Make gradlew executable
-        run: chmod +x ./gradlew
+        run: chmod +x ./VpnApp/gradlew
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug
+        run: cd VpnApp && ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: SafeVPN-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: VpnApp/app/build/outputs/apk/debug/app-debug.apk
