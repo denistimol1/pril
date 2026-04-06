@@ -53,7 +53,7 @@ class MainActivity : ComponentActivity() {
         try {
             val intent = Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse(vlessConfig)
-                setPackage("com.v2ray.ang")
+                setPackage("com.v2raytun.android")
             }
             startActivity(intent)
         } catch (e: Exception) {
@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
             clipboard.setPrimaryClip(ClipData.newPlainText("vless", vlessConfig))
             Toast.makeText(this, "Конфиг скопирован! Вставьте в v2rayNG", Toast.LENGTH_LONG).show()
             try {
-                val launchIntent = packageManager.getLaunchIntentForPackage("com.v2ray.ang")
+                val launchIntent = packageManager.getLaunchIntentForPackage("com.v2raytun.android")
                 if (launchIntent != null) startActivity(launchIntent)
                 else startActivity(Intent(Intent.ACTION_VIEW,
                     Uri.parse("market://details?id=com.v2ray.ang")))
@@ -73,7 +73,7 @@ class MainActivity : ComponentActivity() {
 
     private fun disconnectV2rayNG() {
         try {
-            val launchIntent = packageManager.getLaunchIntentForPackage("com.v2ray.ang")
+            val launchIntent = packageManager.getLaunchIntentForPackage("com.v2raytun.android")
             if (launchIntent != null) startActivity(launchIntent)
         } catch (e: Exception) { }
     }
