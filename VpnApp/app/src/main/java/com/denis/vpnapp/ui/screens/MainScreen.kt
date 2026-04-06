@@ -2,10 +2,14 @@ package com.denis.vpnapp.ui.screens
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -16,13 +20,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.denis.vpnapp.model.VpnStatus
 import com.denis.vpnapp.model.VpnUiState
 import com.denis.vpnapp.model.VpnViewModel
-import com.denis.vpnapp.ui.theme.*
+import com.denis.vpnapp.ui.theme.Cyan400
+import com.denis.vpnapp.ui.theme.Dark600
+import com.denis.vpnapp.ui.theme.Dark700
+import com.denis.vpnapp.ui.theme.Dark800
+import com.denis.vpnapp.ui.theme.Dark900
+import com.denis.vpnapp.ui.theme.GreenOn
+import com.denis.vpnapp.ui.theme.TextPrimary
+import com.denis.vpnapp.ui.theme.TextSecondary
 
 @Composable
 fun MainScreen(
@@ -40,7 +52,8 @@ fun MainScreen(
             VpnStatus.CONNECTING -> Color(0xFF1A3A5C)
             VpnStatus.CONNECTED -> Color(0xFF003D1A)
         },
-        animationSpec = tween(600), label = "buttonColor"
+        animationSpec = tween(600),
+        label = "buttonColor"
     )
 
     val ringColor by animateColorAsState(
@@ -49,7 +62,8 @@ fun MainScreen(
             VpnStatus.CONNECTING -> Cyan400
             VpnStatus.CONNECTED -> GreenOn
         },
-        animationSpec = tween(600), label = "ringColor"
+        animationSpec = tween(600),
+        label = "ringColor"
     )
 
     val infiniteTransition = rememberInfiniteTransition(label = "pulse")
@@ -66,9 +80,7 @@ fun MainScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(listOf(Dark900, Dark800, Dark900))
-            )
+            .background(Brush.verticalGradient(listOf(Dark900, Dark800, Dark900)))
     ) {
         Column(
             modifier = Modifier
@@ -83,13 +95,13 @@ fun MainScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    "SafeVPN",
+                    text = "SafeVPN",
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold,
                     color = Cyan400
                 )
                 Icon(
-                    Icons.Default.Settings,
+                    imageVector = Icons.Default.Settings,
                     contentDescription = "Settings",
                     tint = TextSecondary,
                     modifier = Modifier.size(24.dp)
@@ -162,7 +174,9 @@ fun MainScreen(
                 ) {
                     Icon(
                         imageVector = if (status == VpnStatus.CONNECTED)
-                            Icons.Default.Lock else Icons.Default.LockOpen,
+                            Icons.Default.Lock
+                        else
+                            Icons.Default.LockOpen,
                         contentDescription = "Connect",
                         tint = ringColor,
                         modifier = Modifier.size(48.dp)
@@ -187,24 +201,24 @@ fun MainScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(uiState.selectedServer.flag, fontSize = 28.sp)
+                        Text(text = uiState.selectedServer.flag, fontSize = 28.sp)
                         Spacer(modifier = Modifier.width(12.dp))
                         Column {
                             Text(
-                                uiState.selectedServer.country,
+                                text = uiState.selectedServer.country,
                                 color = TextPrimary,
                                 fontWeight = FontWeight.SemiBold,
                                 fontSize = 15.sp
                             )
                             Text(
-                                "${uiState.selectedServer.ping} РјСЃ вЂў ${uiState.selectedServer.load}% РЅР°РіСЂСѓР·РєР°",
+                                text = "${uiState.selectedServer.ping} РјСЃ вЂў ${uiState.selectedServer.load}% РЅР°РіСЂСѓР·РєР°",
                                 color = TextSecondary,
                                 fontSize = 12.sp
                             )
                         }
                     }
                     Icon(
-                        Icons.Default.KeyboardArrowRight,
+                        imageVector = Icons.Default.KeyboardArrowRight,
                         contentDescription = null,
                         tint = TextSecondary
                     )
@@ -233,7 +247,9 @@ fun MainScreen(
                         color = GreenOn
                     )
                 }
+
                 Spacer(modifier = Modifier.height(12.dp))
+
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(12.dp),
@@ -246,9 +262,9 @@ fun MainScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Р’Р°С€ IP", color = TextSecondary, fontSize = 13.sp)
+                        Text(text = "Р’Р°С€ IP", color = TextSecondary, fontSize = 13.sp)
                         Text(
-                            uiState.currentIp,
+                            text = uiState.currentIp,
                             color = Cyan400,
                             fontWeight = FontWeight.Medium,
                             fontSize = 13.sp
@@ -265,7 +281,7 @@ fun SpeedCard(
     modifier: Modifier = Modifier,
     label: String,
     value: String,
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    icon: ImageVector,
     color: Color
 ) {
     Card(
@@ -277,9 +293,15 @@ fun SpeedCard(
             modifier = Modifier.padding(14.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(icon, contentDescription = null, tint = color, modifier = Modifier.size(20.dp))
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = color,
+                modifier = Modifier.size(20.dp)
+            )
             Spacer(modifier = Modifier.height(4.dp))
-            Text(value, color = TextPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
-            Text(label, color = TextSecondary, fontSize = 11.sp)
+            Text(text = value, color = TextPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+            Text(text = label, color = TextSecondary, fontSize = 11.sp)
         }
     }
+}
