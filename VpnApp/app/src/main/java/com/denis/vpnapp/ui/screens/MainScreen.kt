@@ -112,9 +112,9 @@ fun MainScreen(
 
             Text(
                 text = when (status) {
-                    VpnStatus.DISCONNECTED -> "РќРµ РїРѕРґРєР»СЋС‡РµРЅРѕ"
-                    VpnStatus.CONNECTING -> "РџРѕРґРєР»СЋС‡РµРЅРёРµ..."
-                    VpnStatus.CONNECTED -> "Р—Р°С‰РёС‰РµРЅРѕ"
+                    VpnStatus.DISCONNECTED -> "Отключено"
+                    VpnStatus.CONNECTING -> "Подключаеться..."
+                    VpnStatus.CONNECTED -> "Подключен"
                 },
                 fontSize = 16.sp,
                 color = when (status) {
@@ -211,7 +211,7 @@ fun MainScreen(
                                 fontSize = 15.sp
                             )
                             Text(
-                                text = "${uiState.selectedServer.ping} РјСЃ вЂў ${uiState.selectedServer.load}% РЅР°РіСЂСѓР·РєР°",
+                                text = "${uiState.selectedServer.ping} мс ${uiState.selectedServer.load}% нагрузка",
                                 color = TextSecondary,
                                 fontSize = 12.sp
                             )
@@ -234,14 +234,14 @@ fun MainScreen(
                 ) {
                     SpeedCard(
                         modifier = Modifier.weight(1f),
-                        label = "Р—Р°РіСЂСѓР·РєР°",
+                        label = "Загрузка",
                         value = uiState.downloadSpeed,
                         icon = Icons.Default.ArrowDownward,
                         color = Cyan400
                     )
                     SpeedCard(
                         modifier = Modifier.weight(1f),
-                        label = "РћС‚РґР°С‡Р°",
+                        label = "Отдача",
                         value = uiState.uploadSpeed,
                         icon = Icons.Default.ArrowUpward,
                         color = GreenOn
@@ -262,7 +262,7 @@ fun MainScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(text = "Р’Р°С€ IP", color = TextSecondary, fontSize = 13.sp)
+                        Text(text = "Твой IP", color = TextSecondary, fontSize = 13.sp)
                         Text(
                             text = uiState.currentIp,
                             color = Cyan400,
