@@ -77,23 +77,32 @@ fun MainScreen(
                 .padding(horizontal = 24.dp, vertical = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("SafeVPN", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Cyan400)
-                Icon(Icons.Default.Settings, contentDescription = "Settings", tint = TextSecondary, modifier = Modifier.size(24.dp))
+                Text(
+                    "SafeVPN",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Cyan400
+                )
+                Icon(
+                    Icons.Default.Settings,
+                    contentDescription = "Settings",
+                    tint = TextSecondary,
+                    modifier = Modifier.size(24.dp)
+                )
             }
 
             Spacer(modifier = Modifier.height(40.dp))
 
             Text(
                 text = when (status) {
-                    VpnStatus.DISCONNECTED -> "Не подключено"
-                    VpnStatus.CONNECTING -> "Подключение..."
-                    VpnStatus.CONNECTED -> "Защищено"
+                    VpnStatus.DISCONNECTED -> "РќРµ РїРѕРґРєР»СЋС‡РµРЅРѕ"
+                    VpnStatus.CONNECTING -> "РџРѕРґРєР»СЋС‡РµРЅРёРµ..."
+                    VpnStatus.CONNECTED -> "Р—Р°С‰РёС‰РµРЅРѕ"
                 },
                 fontSize = 16.sp,
                 color = when (status) {
@@ -109,9 +118,7 @@ fun MainScreen(
             Text(
                 text = if (status == VpnStatus.CONNECTED)
                     viewModel.formatTime(uiState.connectedSeconds)
-
-
-,
+                else "00:00:00",
                 fontSize = 36.sp,
                 fontWeight = FontWeight.Bold,
                 color = TextPrimary,
@@ -120,9 +127,22 @@ fun MainScreen(
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            Box(contentAlignment = Alignment.Center, modifier = Modifier.scale(pulse)) {
-                Box(modifier = Modifier.size(180.dp).clip(CircleShape).border(2.dp, ringColor.copy(alpha = 0.3f), CircleShape))
-                Box(modifier = Modifier.size(156.dp).clip(CircleShape).border(1.5.dp, ringColor.copy(alpha = 0.6f), CircleShape))
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.scale(pulse)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(180.dp)
+                        .clip(CircleShape)
+                        .border(2.dp, ringColor.copy(alpha = 0.3f), CircleShape)
+                )
+                Box(
+                    modifier = Modifier
+                        .size(156.dp)
+                        .clip(CircleShape)
+                        .border(1.5.dp, ringColor.copy(alpha = 0.6f), CircleShape)
+                )
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
@@ -141,7 +161,8 @@ fun MainScreen(
                         }
                 ) {
                     Icon(
-                        imageVector = if (status == VpnStatus.CONNECTED) Icons.Default.Lock else Icons.Default.LockOpen,
+                        imageVector = if (status == VpnStatus.CONNECTED)
+                            Icons.Default.Lock else Icons.Default.LockOpen,
                         contentDescription = "Connect",
                         tint = ringColor,
                         modifier = Modifier.size(48.dp)
@@ -152,12 +173,16 @@ fun MainScreen(
             Spacer(modifier = Modifier.height(40.dp))
 
             Card(
-                modifier = Modifier.fillMaxWidth().clickable { onOpenServers() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onOpenServers() },
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(containerColor = Dark700)
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -165,20 +190,48 @@ fun MainScreen(
                         Text(uiState.selectedServer.flag, fontSize = 28.sp)
                         Spacer(modifier = Modifier.width(12.dp))
                         Column {
-                            Text(uiState.selectedServer.country, color = TextPrimary, fontWeight = FontWeight.SemiBold, fontSize = 15.sp)
-                            Text("${uiState.selectedServer.ping} мс • ${uiState.selectedServer.load}% нагрузка", color = TextSecondary, fontSize = 12.sp)
+                            Text(
+                                uiState.selectedServer.country,
+                                color = TextPrimary,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 15.sp
+                            )
+                            Text(
+                                "${uiState.selectedServer.ping} РјСЃ вЂў ${uiState.selectedServer.load}% РЅР°РіСЂСѓР·РєР°",
+                                color = TextSecondary,
+                                fontSize = 12.sp
+                            )
                         }
                     }
-                    Icon(Icons.Default.KeyboardArrowRight, contentDescription = null, tint = TextSecondary)
+                    Icon(
+                        Icons.Default.KeyboardArrowRight,
+                        contentDescription = null,
+                        tint = TextSecondary
+                    )
                 }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
             if (status == VpnStatus.CONNECTED) {
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    SpeedCard(modifier = Modifier.weight(1f), label = "Загрузка", value = uiState.downloadSpeed, icon = Icons.Default.ArrowDownward, color = Cyan400)
-                    SpeedCard(modifier = Modifier.weight(1f), label = "Отдача", value = uiState.uploadSpeed, icon = Icons.Default.ArrowUpward, color = GreenOn)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    SpeedCard(
+                        modifier = Modifier.weight(1f),
+                        label = "Р—Р°РіСЂСѓР·РєР°",
+                        value = uiState.downloadSpeed,
+                        icon = Icons.Default.ArrowDownward,
+                        color = Cyan400
+                    )
+                    SpeedCard(
+                        modifier = Modifier.weight(1f),
+                        label = "РћС‚РґР°С‡Р°",
+                        value = uiState.uploadSpeed,
+                        icon = Icons.Default.ArrowUpward,
+                        color = GreenOn
+                    )
                 }
                 Spacer(modifier = Modifier.height(12.dp))
                 Card(
@@ -187,15 +240,19 @@ fun MainScreen(
                     colors = CardDefaults.cardColors(containerColor = Dark700)
                 ) {
                     Row(
-                        modifier = Modifier.fillMaxWidth().padding(14.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(14.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
-                        vertical
-
-
-Alignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text("Ваш IP", color = TextSecondary, fontSize = 13.sp)
-                        Text(uiState.currentIp, color = Cyan400, fontWeight = FontWeight.Medium, fontSize = 13.sp)
+                        Text("Р’Р°С€ IP", color = TextSecondary, fontSize = 13.sp)
+                        Text(
+                            uiState.currentIp,
+                            color = Cyan400,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 13.sp
+                        )
                     }
                 }
             }
@@ -216,15 +273,13 @@ fun SpeedCard(
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Dark700)
     ) {
-        Column(modifier = Modifier.padding(14.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            modifier = Modifier.padding(14.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Icon(icon, contentDescription = null, tint = color, modifier = Modifier.size(20.dp))
             Spacer(modifier = Modifier.height(4.dp))
             Text(value, color = TextPrimary, fontWeight = FontWeight.Bold, fontSize = 14.sp)
             Text(label, color = TextSecondary, fontSize = 11.sp)
         }
     }
-}
-
-
-
-
